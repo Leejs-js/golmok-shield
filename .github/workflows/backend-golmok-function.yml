@@ -3,7 +3,7 @@ name: Backend CI/CD - golmok-function
 on:
   push:
     branches:
-      - merged-apis
+      - main
     paths:
       - "backend/**"
       - ".github/workflows/backend-golmok-function.yml"
