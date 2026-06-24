@@ -22,6 +22,30 @@ pnpm-debug.log*
 # macOS
 .DS_Store
 
+# data 폴더 전체는 제외
+data/*
+
+# 단, model 폴더는 추적 허용
+!data/model/
+
+# model 폴더 안도 기본 제외
+data/model/*
+
+# 단, 이 3개 파일만 추적
+!data/model/cluster_summary.csv
+!data/model/dong_cluster_result.csv
+!data/model/dong_features.csv
+
+# Node.js
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# macOS
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -338,3 +362,36 @@ Thumbs.db
 # TypeScript build cache
 *.tsbuildinfo
 node_modules
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+dist/
+build/
+.vite/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Cache
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+coverage/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# TypeScript build cache
+*.tsbuildinfo
