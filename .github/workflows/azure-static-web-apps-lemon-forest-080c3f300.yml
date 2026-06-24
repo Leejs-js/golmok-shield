@@ -30,6 +30,38 @@ jobs:
         working-directory: frontend
         run: npm ci
 
+      - name: Validate frontend environment
+        env:
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
+        run: |
+          set -e
+
+          if [ -z "$NEXT_PUBLIC_API_BASE_URL" ]; then
+            echo "::error::NEXT_PUBLIC_API_BASE_URL secret is required."
+            echo "::error::예: https://golmok-function-xxxxx.koreacentral-01.azurewebsites.net"
+            exit 1
+          fi
+
+          if ! echo "$NEXT_PUBLIC_API_BASE_URL" | grep -Eq '^https?://'; then
+            echo "::error::NEXT_PUBLIC_API_BASE_URL must start with http:// or https://"
+            exit 1
+          fi
+
+          if echo "$NEXT_PUBLIC_API_BASE_URL" | grep -Eq '/api/?$'; then
+            echo "::error::NEXT_PUBLIC_API_BASE_URL must be the Function App root URL, not an /api URL."
+            echo "::error::올바른 예: https://golmok-function-xxxxx.koreacentral-01.azurewebsites.net"
+            echo "::error::잘못된 예: https://golmok-function-xxxxx.koreacentral-01.azurewebsites.net/api"
+            exit 1
+          fi
+
+          if echo "$NEXT_PUBLIC_API_BASE_URL" | grep -Eq 'azurestaticapps\.net'; then
+            echo "::error::NEXT_PUBLIC_API_BASE_URL must be the backend Function App URL, not the Static Web App URL."
+            echo "::error::예: https://golmok-function-xxxxx.koreacentral-01.azurewebsites.net"
+            exit 1
+          fi
+
+          echo "NEXT_PUBLIC_API_BASE_URL is configured."
+
       - name: Build static frontend
         working-directory: frontend
         env:
