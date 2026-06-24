@@ -1,0 +1,30 @@
+[
+  {
+    "cluster_id": 0,
+    "cluster_type": "트렌디·핫플레이스 상권",
+    "description": "청년층과 카페 중심 소비가 활발한, 유동성과 트렌드 변화가 빠른 상권",
+    "dong_list": "합정동, 연남동",
+    "dong_count": 2
+  },
+  {
+    "cluster_id": 1,
+    "cluster_type": "업무·직장인 중심 상권",
+    "description": "직장인 유입과 평일 점심 수요가 높은, 안정적이고 반복 소비가 중심인 상권",
+    "dong_list": "아현동, 공덕동, 도화동, 용강동, 상암동",
+    "dong_count": 5
+  },
+  {
+    "cluster_id": 2,
+    "cluster_type": "생활권·로컬 상권",
+    "description": "주거 기반 소비가 중심인, 지역 주민 중심의 안정적인 동네 상권",
+    "dong_list": "염리동, 신수동, 망원1동, 망원2동, 성산1동, 성산2동",
+    "dong_count": 6
+  },
+  {
+    "cluster_id": 3,
+    "cluster_type": "혼합형·대학가 상권",
+    "description": "주거·상업·청년층 활동이 혼재된, 시간대별 소비 패턴이 다양한 상권",
+    "dong_list": "대흥동, 서강동, 서교동",
+    "dong_count": 3
+  }
+]

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f3ed" />
+    <meta name="description" content="데이터로 찾는 나다운 카페 창업 입지, 골목 방패" />
+    <title>골목 방패 | 마포구 카페 입지 추천</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynhDXMZBQVnMZJHytjAZuJqbLxbM=" crossorigin="" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="골목 방패 처음으로">
+        <img src="./assets/logo.svg" alt="" width="44" height="44" />
+        <span><strong>골목 방패</strong><small>Golmok Shield</small></span>
+      </a>
+      <div class="header-note"><span class="live-dot"></span> 마포구 카페 창업 분석</div>
+    </header>
+
+    <main>
+      <section id="introView" class="view intro-view is-active" aria-labelledby="introTitle">
+        <div class="intro-copy">
+          <p class="eyebrow">데이터로 지키는 첫 번째 가게</p>
+          <h1 id="introTitle">당신의 카페가<br /><em>머물 골목</em>을 찾아드려요.</h1>
+          <p class="lead">7개의 짧은 선택으로 창업 취향을 분석하고,<br />마포구 16개 동 가운데 잘 맞는 곳과 피해야 할 곳을 보여드립니다.</p>
+          <button id="startButton" class="primary-button" type="button">내 상권 취향 알아보기 <span>→</span></button>
+          <div class="trust-row" aria-label="서비스 특징">
+            <span>✓ 공공데이터 기반</span><span>✓ K-Means 상권 유형</span><span>✓ 약 1분 소요</span>
+          </div>
+        </div>
+        <div class="intro-art" aria-hidden="true">
+          <div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div>
+          <div class="shop"><div class="awning"></div><div class="shop-window"></div><div class="shop-door"></div></div>
+          <div class="tree"><i></i><b></b></div>
+          <div class="floating-card card-a"><small>추천 적합도</small><strong>87<em>점</em></strong><span>망원1동</span></div>
+          <div class="floating-card card-b"><span class="mini-shield">◆</span><p>내 취향에 꼭 맞는<br /><strong>골목·생활형 상권</strong></p></div>
+        </div>
+      </section>
+
+      <section id="quizView" class="view quiz-view" aria-labelledby="questionTitle">
+        <div class="quiz-shell">
+          <div class="progress-head"><button id="quizBack" class="icon-button" type="button" aria-label="이전 질문">←</button><div class="progress-copy"><span id="progressLabel">1 / 7</span><div class="progress-track"><i id="progressBar"></i></div></div><button id="restartQuiz" class="text-button" type="button">처음부터</button></div>
+          <div class="question-panel">
+            <p class="eyebrow">BALANCE GAME</p>
+            <h2 id="questionTitle"></h2>
+            <p id="questionHint" class="question-hint"></p>
+            <div id="answerOptions" class="answer-options"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="loadingView" class="view loading-view" aria-live="polite">
+        <div class="loader-shield"><img src="./assets/logo.svg" alt="" /></div>
+        <h2>당신과 닮은 골목을 찾고 있어요</h2>
+        <p id="loadingMessage">16개 동의 상권 특성을 비교하는 중...</p>
+        <div class="loading-line"><i></i></div>
+      </section>
+
+      <section id="resultView" class="view result-view" aria-labelledby="resultTitle">
+        <div class="result-topbar">
+          <div><p class="eyebrow">MY GOLMOK REPORT</p><h2 id="resultTitle">당신의 창업 상권 리포트</h2></div>
+          <button id="retryButton" class="secondary-button" type="button">↻ 다시 진단하기</button>
+        </div>
+        <div class="persona-banner"><div class="persona-icon">☕</div><div><small>당신은</small><h3 id="personaTitle"></h3><p id="personaDescription"></p></div><div class="model-badge"><span></span><div><small>분석 모델</small><strong id="modelLabel">K-Means Local</strong></div></div></div>
+        <div class="result-layout">
+          <div class="map-panel"><div id="map" aria-label="마포구 추천 지역 지도"></div><div class="map-legend"><span><i class="best"></i> 추천 지역</span><span><i class="worst"></i> 비추천 지역</span></div><button id="fitMap" class="map-fit" type="button">◎ 전체 보기</button></div>
+          <aside class="ranking-panel">
+            <div class="tabs" role="tablist"><button class="tab is-active" data-tab="best" role="tab" aria-selected="true">추천 TOP 3</button><button class="tab" data-tab="worst" role="tab" aria-selected="false">주의 TOP 3</button></div>
+            <div id="rankingList" class="ranking-list"></div>
+          </aside>
+        </div>
+        <div class="disclaimer">본 결과는 공공데이터와 군집 모델을 활용한 참고 정보이며 실제 수익을 보장하지 않습니다. 계약 전 현장 조사와 전문가 상담을 권장합니다.</div>
+      </section>
+    </main>
+
+    <template id="rankingCardTemplate"><article class="ranking-card" tabindex="0"><div class="rank-number"></div><div class="rank-main"><div class="rank-heading"><div><small class="rank-kind"></small><h3 class="rank-dong"></h3></div><div class="score-ring"><strong></strong><small>점</small></div></div><p class="cluster-pill"></p><ul class="reason-list"></ul><button class="map-link" type="button">지도에서 보기 →</button></div></article></template>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=2d361523ac998582af6d92dc4efed7f1"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

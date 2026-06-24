@@ -1,0 +1,40 @@
+{
+  "n_clusters": 5,
+  "n_rows": 16,
+  "n_features": 19,
+  "inertia": 109.2428705769355,
+  "silhouette_score": 0.15870196914223156,
+  "davies_bouldin_score": 0.9606774368439529,
+  "pca_explained_variance_ratio": [
+    0.2952504870118644,
+    0.19879758596403013
+  ],
+  "feature_cols": [
+    "young_pop_ratio",
+    "middle_old_pop_ratio",
+    "office_worker_ratio",
+    "subway_total_psngr_co",
+    "subway_station_count",
+    "commercial_area_count",
+    "store_count",
+    "store_per_area",
+    "food_biz_ratio",
+    "retail_biz_ratio",
+    "education_biz_ratio",
+    "culture_biz_ratio",
+    "info_comm_biz_ratio",
+    "similar_store_ratio",
+    "franchise_ratio",
+    "open_store_ratio",
+    "close_store_ratio",
+    "net_open_store_ratio",
+    "store_turnover_ratio"
+  ],
+  "cluster_name_map": {
+    "0": "주거/생활밀착형 상권",
+    "1": "오피스형 상권",
+    "2": "대학가/청년형 상권",
+    "3": "주거/생활밀착형 상권",
+    "4": "주거/생활밀착형 상권"
+  }
+}

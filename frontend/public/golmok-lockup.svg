@@ -1,0 +1,9 @@
+<svg width="160" height="36" viewBox="0 0 160 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield icon -->
+  <rect x="0" y="2" width="32" height="32" rx="9" fill="#0E3A57"/>
+  <path d="M16 8 L26 13v8c0 6.5-4.3 11.5-10 13.5-5.7-2-10-7-10-13.5v-8L16 8Z" fill="#E8F4EE" opacity=".95"/>
+  <path d="M11 22c2.5-4.5 6-7.5 10.5-7.5 1.2 0 2.3.2 3.3.5-1.5 6.5-5 10.5-10 12L11 22Z" fill="#9FD3C4"/>
+  <path d="M13 27.5c2-5.5 5-9 10-11.5" stroke="#0E3A57" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Text: 골목 방패 -->
+  <text x="40" y="24.5" font-family="'Pretendard Variable', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="800" fill="#0E3A57" letter-spacing="-0.02em">골목 방패</text>
+</svg>

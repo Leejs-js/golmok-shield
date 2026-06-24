@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+:root {
+  --color-navy: #0099DD;
+  --color-navy-hover: #0088C4;
+  --color-navy-active: #0077AD;
+  --color-bg: #ffffff;
+  --color-bg-sec: #ffffff;
+}
+
+body {
+  font-family: "Pretendard Variable", "Apple SD Gothic Neo", "Noto Sans KR", -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #34454D;
+  background: var(--color-bg-sec);
+  -webkit-font-smoothing: antialiased;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 153, 221, 0.22);
+  border-radius: 8px;
+}

@@ -1,0 +1,5 @@
+api/local.settings.json
+api/.venv/
+__pycache__/
+*.pyc
+.swa/

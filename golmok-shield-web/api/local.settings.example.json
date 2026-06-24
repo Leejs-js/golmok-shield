@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "MODEL_PROVIDER": "local",
+    "AZUREML_ENDPOINT_URL": "",
+    "AZUREML_API_KEY": ""
+  }
+}

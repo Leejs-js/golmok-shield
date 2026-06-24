@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Azure OpenAI로 동작하는 로컬 코딩 어시스턴트"
+    />
+    <title>Azure Coding Chat</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">A</div>
+          <div>
+            <strong>Azure Coding Chat</strong>
+            <span>Local developer assistant</span>
+          </div>
+        </div>
+
+        <button class="new-chat-button" id="new-chat" type="button">
+          <span aria-hidden="true">＋</span>
+          새 대화
+        </button>
+
+        <div class="sidebar-section">
+          <p class="section-label">연결 상태</p>
+          <div class="status-card">
+            <span class="status-dot" id="status-dot"></span>
+            <div>
+              <strong id="status-title">확인 중</strong>
+              <span id="deployment-name">Azure 연결 확인 중</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-spacer"></div>
+
+        <button class="sidebar-action" id="settings-button" type="button">
+          <span aria-hidden="true">⚙</span>
+          어시스턴트 설정
+        </button>
+        <p class="privacy-note">API 키와 설정은 로컬 서버에만 저장됩니다.</p>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <button class="icon-button mobile-only" id="menu-button" type="button" aria-label="메뉴 열기">
+            ☰
+          </button>
+          <div>
+            <strong>코딩 어시스턴트</strong>
+            <span id="header-subtitle">설계, 구현, 디버깅을 함께 해결합니다</span>
+          </div>
+          <button class="icon-button" id="clear-button" type="button" aria-label="대화 지우기" title="대화 지우기">
+            ↻
+          </button>
+        </header>
+
+        <section class="chat-scroll" id="chat-scroll" aria-live="polite">
+          <div class="messages" id="messages"></div>
+        </section>
+
+        <div class="composer-area">
+          <form class="composer" id="chat-form">
+            <textarea
+              id="message-input"
+              rows="1"
+              maxlength="100000"
+              placeholder="코드, 에러 메시지, 구현하고 싶은 기능을 입력하세요…"
+              aria-label="메시지"
+            ></textarea>
+            <div class="composer-footer">
+              <span><kbd>Enter</kbd> 전송 · <kbd>Shift</kbd> + <kbd>Enter</kbd> 줄바꿈</span>
+              <button class="send-button" id="send-button" type="submit" aria-label="전송">
+                <span id="send-icon">↑</span>
+              </button>
+            </div>
+          </form>
+          <p class="disclaimer">생성된 코드와 명령어는 실행 전에 검토하세요.</p>
+        </div>
+      </main>
+    </div>
+
+    <div class="backdrop" id="backdrop" hidden></div>
+
+    <dialog class="settings-dialog" id="settings-dialog">
+      <form method="dialog">
+        <div class="dialog-header">
+          <div>
+            <h2>어시스턴트 설정</h2>
+            <p>이 브라우저의 모든 새 요청에 적용됩니다.</p>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="닫기">×</button>
+        </div>
+        <label for="system-prompt">시스템 프롬프트</label>
+        <textarea id="system-prompt" rows="9"></textarea>
+        <div class="dialog-actions">
+          <button class="secondary-button" id="reset-prompt" type="button">기본값 복원</button>
+          <button class="primary-button" id="save-settings" value="default">저장</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

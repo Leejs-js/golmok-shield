@@ -1,0 +1,5 @@
+*
+!.gitignore
+!README.md
+!kmeans_pipeline.pkl
+!dong_cluster_result.csv

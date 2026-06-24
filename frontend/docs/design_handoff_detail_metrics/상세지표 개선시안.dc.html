@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/tokens/fig-tokens.css">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/tokens/typography.css">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/tokens/aliases.css">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/tokens/fig-typography.css">
+<link rel="stylesheet" href="_ds/wanted-design-system-a9dc13a5-1400-416f-a884-b26bd939b8e8/styles.css">
+<style>
+  :root { --ink:#171717; --ink-2:rgba(23,23,23,.61); --ink-3:rgba(23,23,23,.40); --line:rgba(112,115,124,.16); --fill:rgba(112,115,124,.05); --pri:#3366FF; }
+  body { font-family:"Wanted Sans","Pretendard",system-ui,sans-serif; }
+  .row-hov:hover { background:rgba(112,115,124,.06) !important; }
+</style>
+</helmet>
+
+<div style="position:absolute;left:80px;top:24px;font:700 22px 'Wanted Sans',sans-serif;color:var(--ink)">상세 지표 페이지 — 개선 시안</div>
+<div style="position:absolute;left:80px;top:58px;font:400 14px 'Wanted Sans',sans-serif;color:var(--ink-2);max-width:760px">9개 카드가 모두 같은 무게라 우선순위가 없고, 아코디언이 펼쳐지면 그리드가 깨지는 게 핵심 문제예요. 두 방향으로 풀었습니다.</div>
+
+<!-- ============ FRAME A ============ -->
+<div style="position:absolute;left:80px;top:140px;width:780px">
+  <div data-drags-parent="1" style="position:absolute;top:-26px;font:600 13px 'Wanted Sans',sans-serif;color:var(--pri)">시안 A · 리스트 + 고정 읽기 패널</div>
+  <div style="background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:24px">
+    <div style="font:700 18px 'Wanted Sans',sans-serif;color:var(--ink);margin-bottom:4px">상세 지표</div>
+    <div style="font:400 13px 'Wanted Sans',sans-serif;color:var(--ink-2);margin-bottom:18px">개선이 필요한 항목부터 정렬했어요. 항목을 누르면 오른쪽에서 설명이 바뀝니다.</div>
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start">
+      <!-- list -->
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <sc-for list="{{ items }}" as="m" hint-placeholder-count="9">
+          <div class="row-hov" onClick="{{ m.onSelect }}" style="{{ m.rowStyle }}">
+            <div style="width:4px;align-self:stretch;border-radius:99px;background:{{ m.color }};flex:none"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font:600 14px 'Wanted Sans',sans-serif;color:var(--ink);margin-bottom:6px">{{ m.name }}</div>
+              <div style="height:5px;border-radius:99px;background:rgba(112,115,124,.12);overflow:hidden">
+                <div style="{{ m.barStyle }}"></div>
+              </div>
+            </div>
+            <div style="text-align:right;flex:none">
+              <div style="font:700 15px 'Wanted Sans',sans-serif;color:{{ m.color }}">{{ m.score }}</div>
+              <div style="font:600 11px 'Wanted Sans',sans-serif;color:{{ m.color }}">{{ m.status }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <!-- panel -->
+      <div style="background:var(--fill);border-radius:14px;padding:22px;min-height:280px;position:sticky;top:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span style="{{ sel.pill }}">{{ sel.status }}</span>
+          <span style="font:700 19px 'Wanted Sans',sans-serif;color:var(--ink)">{{ sel.name }}</span>
+          <span style="font:700 19px 'Wanted Sans',sans-serif;color:{{ sel.color }};margin-left:auto">{{ sel.score }}<span style="font-size:13px;color:var(--ink-3)">점</span></span>
+        </div>
+        <div style="font:400 15px/1.65 'Wanted Sans',sans-serif;color:var(--ink);margin-bottom:16px">{{ sel.desc }}</div>
+        <div style="display:flex;gap:8px;background:#fff;border-radius:10px;padding:14px 16px">
+          <span style="font:700 12px 'Wanted Sans',sans-serif;color:var(--pri);flex:none">TIP</span>
+          <span style="font:400 13px/1.6 'Wanted Sans',sans-serif;color:var(--ink-2)">{{ sel.tip }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FRAME B ============ -->
+<div style="position:absolute;left:920px;top:140px;width:680px">
+  <div data-drags-parent="1" style="position:absolute;top:-26px;font:600 13px 'Wanted Sans',sans-serif;color:var(--pri)">시안 B · 요약 + 단일 컬럼 인라인 펼침</div>
+  <div style="background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);padding:24px">
+    <div style="font:700 18px 'Wanted Sans',sans-serif;color:var(--ink);margin-bottom:14px">상세 지표</div>
+    <!-- summary -->
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <div style="flex:1;background:rgba(255,66,66,.07);border-radius:12px;padding:14px 16px">
+        <div style="font:700 20px 'Wanted Sans',sans-serif;color:#FF4242">1<span style="font-size:13px">개</span></div>
+        <div style="font:500 12px 'Wanted Sans',sans-serif;color:var(--ink-2);margin-top:2px">위험 · 우선 점검</div>
+      </div>
+      <div style="flex:1;background:rgba(255,146,0,.08);border-radius:12px;padding:14px 16px">
+        <div style="font:700 20px 'Wanted Sans',sans-serif;color:#FF9200">5<span style="font-size:13px">개</span></div>
+        <div style="font:500 12px 'Wanted Sans',sans-serif;color:var(--ink-2);margin-top:2px">주의 · 보완 권장</div>
+      </div>
+      <div style="flex:1;background:rgba(0,191,64,.08);border-radius:12px;padding:14px 16px">
+        <div style="font:700 20px 'Wanted Sans',sans-serif;color:#00BF40">3<span style="font-size:13px">개</span></div>
+        <div style="font:500 12px 'Wanted Sans',sans-serif;color:var(--ink-2);margin-top:2px">정상 · 강점</div>
+      </div>
+    </div>
+    <!-- list -->
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ items }}" as="m" hint-placeholder-count="9">
+        <div style="border-top:1px solid var(--line)">
+          <div class="row-hov" onClick="{{ m.onToggle }}" style="display:flex;align-items:center;gap:14px;padding:16px 8px;cursor:pointer;border-radius:8px">
+            <span style="width:8px;height:8px;border-radius:99px;background:{{ m.color }};flex:none"></span>
+            <span style="font:600 15px 'Wanted Sans',sans-serif;color:var(--ink);flex:1">{{ m.name }}</span>
+            <span style="font:600 12px 'Wanted Sans',sans-serif;color:{{ m.color }}">{{ m.status }}</span>
+            <span style="font:700 16px 'Wanted Sans',sans-serif;color:var(--ink);width:54px;text-align:right">{{ m.score }}</span>
+            <span style="{{ m.chevStyle }}">⌄</span>
+          </div>
+          <sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:4px 8px 20px 30px">
+              <div style="font:400 15px/1.7 'Wanted Sans',sans-serif;color:var(--ink);margin-bottom:14px">{{ m.desc }}</div>
+              <div style="display:flex;gap:8px;background:var(--fill);border-radius:10px;padding:13px 15px">
+                <span style="font:700 12px 'Wanted Sans',sans-serif;color:var(--pri);flex:none">TIP</span>
+                <span style="font:400 13px/1.6 'Wanted Sans',sans-serif;color:var(--ink-2)">{{ m.tip }}</span>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+<!-- post-its -->
+<div style="position:absolute;left:80px;top:640px;width:300px;background:#fef4a8;padding:14px 16px;font:400 13px/1.5 'Wanted Sans',sans-serif;color:#5a4e1a;box-shadow:0 1px 3px rgba(0,0,0,.08);transform:rotate(-1deg)">A안: 그리드가 절대 안 깨져요. 패널이 한 곳에 고정돼 비교하며 읽기 좋고, 카드 속 버튼 느낌이 사라져요.</div>
+<div style="position:absolute;left:920px;top:640px;width:300px;background:#fef4a8;padding:14px 16px;font:400 13px/1.5 'Wanted Sans',sans-serif;color:#5a4e1a;box-shadow:0 1px 3px rgba(0,0,0,.08);transform:rotate(1deg)">B안: 맨 위 요약으로 "뭐부터 볼지" 즉시 파악. 단일 컬럼이라 펼쳐도 흐름이 안 끊기고, 점수순 정렬로 시선이 정리돼요.</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { selA: 0, openB: 0 };
+
+  data() {
+    return [
+      { name:"중장년 수요", score:33.1, status:"위험", color:"#FF4242",
+        desc:"현재 데이터 기준 중장년층의 수요가 낮은 편이에요. 이 연령대를 주요 타깃으로 삼는다면 위험 신호이니, 상품·메시지를 다시 점검할 필요가 있어요.",
+        tip:"중장년 타깃 비중이 크다면 입지·업종 재검토를, 아니라면 무리해서 끌어올리지 않아도 됩니다." },
+      { name:"낮은 경쟁 부담", score:50.6, status:"주의", color:"#FF9200",
+        desc:"경쟁 부담이 중간 수준이에요. 진입은 가능하지만 차별화 포인트가 없으면 묻히기 쉬운 구간입니다.",
+        tip:"가격보다 콘셉트·경험으로 차별화 포인트를 1가지는 명확히 잡아두세요." },
+      { name:"업무 수요", score:61.0, status:"주의", color:"#FF9200",
+        desc:"직장인 기반 업무 수요는 보통 수준이에요. 평일 점심·퇴근 시간대 회전에 영향을 주는 지표입니다.",
+        tip:"평일 점심 세트나 빠른 회전 메뉴로 업무 시간대 매출을 보완해 보세요." },
+      { name:"생활권 수요", score:67.3, status:"주의", color:"#FF9200",
+        desc:"인근 거주 생활권의 수요가 안정적인 편이에요. 단골·재방문을 만들기 좋은 기반입니다.",
+        tip:"적립·단골 혜택으로 재방문율을 끌어올리면 가장 효율이 좋은 구간이에요." },
+      { name:"상권 규모", score:67.8, status:"주의", color:"#FF9200",
+        desc:"상권 자체의 규모는 평균 이상이에요. 유동 인구를 매출로 전환하는 동선·노출이 관건입니다.",
+        tip:"외부 사인·간판 가시성을 점검해 지나가는 사람을 안으로 들이는 데 집중하세요." },
+      { name:"점포 성장성", score:69.1, status:"주의", color:"#FF9200",
+        desc:"점포 성장 여력은 양호한 편이에요. 단기보다 6개월~1년 흐름을 보고 투자하기 좋습니다.",
+        tip:"초기에 무리한 확장보다 검증된 메뉴·운영을 다진 뒤 키우는 편이 안전해요." },
+      { name:"트렌드 적합도", score:77.5, status:"정상", color:"#00BF40",
+        desc:"현재 트렌드와의 적합도가 높은 편이에요. SNS·콘텐츠 반응을 끌어내기 유리한 환경입니다.",
+        tip:"트렌디한 비주얼·메뉴를 전면에 내세워 초기 화제성을 만드세요." },
+      { name:"20·30대 적합도", score:89.3, status:"정상", color:"#00BF40",
+        desc:"서교동의 20·30대 적합도는 높은 편이라 젊은 고객층을 겨냥한 상권 해석에 유리해요. 다만 모든 업종에 자동으로 유리한 건 아니므로 콘텐츠·상품 구성이 함께 맞아야 합니다.",
+        tip:"20·30대가 반응하기 쉬운 콘셉트와 시각적 메시지를 중심으로 구성해 보세요." },
+      { name:"대중교통 접근성", score:100.0, status:"정상", color:"#00BF40",
+        desc:"대중교통 접근성이 최상위예요. 멀리서 찾아오는 방문도 부담이 적어, 목적성 방문을 유도하기 좋습니다.",
+        tip:"역에서의 도보 동선을 안내에 적극 활용해 '찾아오기 쉬운 곳'으로 포지셔닝하세요." },
+    ];
+  }
+
+  pill(color) {
+    return `background:${color};color:#fff;font:600 12px 'Wanted Sans',sans-serif;padding:3px 10px;border-radius:99px;`;
+  }
+
+  renderVals() {
+    const base = this.data();
+    const items = base.map((m, i) => {
+      const isA = true;
+      return {
+        ...m,
+        score: m.score.toFixed(1),
+        barStyle: `height:100%;width:${m.score}%;border-radius:99px;background:${m.color}`,
+        rowStyle: `display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:background .15s;${this.state.selA===i ? 'background:rgba(51,102,255,.06);box-shadow:inset 0 0 0 1px rgba(51,102,255,.25)' : ''}`,
+        onSelect: () => this.setState({ selA: i }),
+        open: this.state.openB === i,
+        onToggle: () => this.setState(s => ({ openB: s.openB === i ? -1 : i })),
+        chevStyle: `font:700 18px 'Wanted Sans',sans-serif;color:var(--ink-3);width:18px;text-align:center;transition:transform .2s;display:inline-block;transform:rotate(${this.state.openB===i?180:0}deg)`,
+      };
+    });
+    const s = base[this.state.selA];
+    const sel = { ...s, score: s.score.toFixed(1), pill: this.pill(s.color) };
+    return { items, sel };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "golmok-shield-backend",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/src/functions/*.js",
+  "scripts": {
+    "clean:build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "clean:test": "node -e \"require('node:fs').rmSync('dist-test',{recursive:true,force:true})\"",
+    "clean:tools": "node -e \"require('node:fs').rmSync('dist-tools',{recursive:true,force:true})\"",
+    "build:data": "npm run clean:tools && tsc -p tsconfig.tools.json && node dist-tools/scripts/buildDongScoreTable.js",
+    "azure:check": "npm run clean:tools && tsc -p tsconfig.tools.json && node dist-tools/scripts/checkAzureOpenAI.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run clean:test && tsc -p tsconfig.test.json && node --test dist-test/tests/recommendation.test.js dist-test/tests/missing-columns.test.js dist-test/tests/azure-openai.test.js",
+    "build": "npm run clean:build && tsc -p tsconfig.build.json",
+    "start": "node dist/src/devServer.js",
+    "dev": "npm run build && npm start",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "preview:cases": "npm run clean:tools && tsc -p tsconfig.tools.json && node dist-tools/scripts/previewRecommendationCases.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@azure/functions": "4.16.1"
+  }
+}

@@ -1,0 +1,6 @@
+dist/
+dist-test/
+dist-tools/
+node_modules/
+.env.local
+local.settings.json
