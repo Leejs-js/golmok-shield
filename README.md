@@ -98,12 +98,12 @@ growth_score             점포 성장성
 | 구분              | 사용 기술                                                     |
 | --------------- | --------------------------------------------------------- |
 | Frontend        | Next.js 14, React 18, TypeScript, Tailwind CSS            |
-| Backend         | Node.js, TypeScript, Azure Functions                      |
+| Backend         | Node.js, TypeScript, Vercel Serverless Functions          |
 | Recommendation  | 사전 생성 JSON 데이터, feature-score 기반 추천 엔진                    |
 | AI Explanation  | Azure OpenAI, rule-based fallback                         |
 | Map             | Kakao Map SDK                                             |
 | Data / Analysis | Python, Jupyter Notebook, pandas, scikit-learn            |
-| Deployment      | Azure Static Web Apps, Azure Function App, GitHub Actions |
+| Deployment      | Vercel (frontend / backend 프로젝트 분리)                     |
 
 ---
 
@@ -119,8 +119,9 @@ growth_score             점포 성장성
 │   └── tests/               프론트 계약 테스트
 │
 ├── backend/
-│   ├── src/functions/       Azure Functions HTTP 엔드포인트
-│   ├── src/http/            API 핸들러, CORS 처리
+│   ├── api/                 Vercel Serverless Function 진입점
+│   ├── src/http/            API 라우터, 핸들러, CORS 처리
+│   ├── src/functions/       Azure Functions 엔드포인트 (이전 배포 구조)
 │   ├── src/lib/             추천 로직, 질문, Azure OpenAI 설명 처리
 │   ├── src/model/           추천 엔진
 │   ├── src/data/            추천 엔진 입력 JSON 데이터
@@ -139,9 +140,9 @@ growth_score             점포 성장성
 
 ```mermaid
 flowchart LR
-  U["User Browser"] --> F["Azure Static Web Apps"]
+  U["User Browser"] --> F["Vercel (frontend)"]
   F --> N["Next.js Static Export"]
-  N --> B["Azure Function App"]
+  N --> B["Vercel Functions (backend)"]
   B --> R["Recommendation Engine"]
   B --> D["Precomputed JSON Data"]
   B --> A["Azure OpenAI Optional"]
@@ -149,7 +150,7 @@ flowchart LR
 
 프론트엔드는 추천 점수를 직접 계산하지 않습니다.
 
-추천 질문 조회, 추천 결과 생성, 점수 설명, 동별 리포트 생성은 백엔드 Azure Function App API를 통해 처리합니다.
+추천 질문 조회, 추천 결과 생성, 점수 설명, 동별 리포트 생성은 백엔드 API를 통해 처리합니다.
 
 ---
 
@@ -322,37 +323,37 @@ npm run verify
 
 ## 배포
 
-### Frontend
+프론트엔드와 백엔드는 같은 GitHub 저장소를 Root Directory만 다르게 지정해 **Vercel 프로젝트 2개**로 배포합니다. `main` 브랜치에 push하면 두 프로젝트가 자동으로 다시 배포됩니다.
 
-프론트엔드는 Next.js 정적 export 결과물을 Azure Static Web Apps에 배포하는 구조입니다.
+> 팀 프로젝트 당시에는 Azure Static Web Apps + Azure Function App으로 배포했으며, 이후 Vercel로 이전했습니다.
 
-관련 workflow 파일:
+### Backend (Vercel 프로젝트 ①)
 
-```text
-.github/workflows/azure-static-web-apps-mango-bay-08358bc00.yml
-```
+| 항목 | 값 |
+| --- | --- |
+| Root Directory | `backend` |
+| Framework Preset | Other (`backend/vercel.json`에 빌드 설정 포함) |
+| 환경변수 | `CORS_ALLOWED_ORIGINS=https://<프론트 도메인>` (필수), Azure OpenAI 값 (선택) |
 
-### Backend
+`/api/*` 요청은 `backend/vercel.json`의 rewrite로 `backend/api/index.ts` 함수 하나에 모이고, 로컬 `devServer`와 같은 라우터(`src/http/router.ts`)를 사용합니다.
 
-백엔드는 Azure Function App으로 배포하는 구조입니다.
-
-관련 workflow 파일:
-
-```text
-.github/workflows/backend-golmok-function.yml
-```
-
-배포 대상 Function App 이름:
+상태 확인 경로:
 
 ```text
-golmok-function
+https://<백엔드 도메인>/api/recommend/health
 ```
 
-배포 후 상태 확인 경로:
+### Frontend (Vercel 프로젝트 ②)
 
-```text
-/api/recommend/health
-```
+| 항목 | 값 |
+| --- | --- |
+| Root Directory | `frontend` |
+| Framework Preset | Next.js (자동 감지) |
+| 환경변수 | `NEXT_PUBLIC_API_BASE_URL=https://<백엔드 도메인>`, `NEXT_PUBLIC_KAKAO_MAP_KEY` |
+
+`NEXT_PUBLIC_*` 값은 빌드 시점에 반영되므로, 값을 바꾼 뒤에는 프론트 프로젝트를 다시 배포해야 합니다.
+
+카카오맵 JavaScript 키의 **JavaScript SDK 도메인**에 프론트 배포 도메인을 등록해야 지도가 표시됩니다.
 
 ---
 
